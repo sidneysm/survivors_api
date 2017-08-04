@@ -1,8 +1,6 @@
 package br.com.sidney.survivor.resource;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.sidney.survivor.model.Location;
 import br.com.sidney.survivor.model.Survivor;
 import br.com.sidney.survivor.repository.Survivors;
 
@@ -25,7 +24,7 @@ public class SurvivorResource {
 
 	@Autowired
 	private Survivors survivors;
-	
+
 	@RequestMapping(value = "/survivors", method = RequestMethod.GET)
 	public ResponseEntity<List<Survivor>> list() {
 		List<Survivor> survivorsList = survivors.findAll();
@@ -39,9 +38,9 @@ public class SurvivorResource {
 		survivors.save(survivor);
 		return new ResponseEntity<>(survivor, HttpStatus.CREATED);
 	}
-	
+
 	@RequestMapping(value = "/survivors/{id}/infected", method = RequestMethod.PUT)
-	public ResponseEntity<?> infected(@PathVariable("id") Long id){
+	public ResponseEntity<?> infected(@PathVariable("id") Long id) {
 		Survivor survivor = survivors.findOne(id);
 		if (survivor == null) {
 			return new ResponseEntity<Survivor>(HttpStatus.NOT_FOUND);
@@ -50,10 +49,18 @@ public class SurvivorResource {
 		survivors.save(survivor);
 		return new ResponseEntity<>(survivor, HttpStatus.OK);
 	}
-	
+
+	@RequestMapping(value = "/survivors/{id}/location", method = RequestMethod.PUT)
+	public ResponseEntity<?> newLocation(@PathVariable("id") Long id, @RequestBody Location location) {
+		Survivor survivor = survivors.findOne(id);
+		logger.info("update location: {}", location);
+		if (survivor == null) {
+			logger.info("não encontrado");
+			return new ResponseEntity<Survivor>(HttpStatus.NOT_FOUND);
+		}
+		survivor.setLastLocation(location);
+		survivors.save(survivor);
+		return new ResponseEntity<>(survivor, HttpStatus.OK);
+	}
+
 }
-
-
-
-
-
