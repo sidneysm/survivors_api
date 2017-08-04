@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,8 +26,6 @@ public class SurvivorResource {
 	@Autowired
 	private Survivors survivors;
 	
-	private Map<Integer, Survivor> surv = new HashMap<Integer, Survivor>();
-	
 	@RequestMapping(value = "/survivors", method = RequestMethod.GET)
 	public ResponseEntity<List<Survivor>> list() {
 		List<Survivor> survivorsList = survivors.findAll();
@@ -40,4 +39,21 @@ public class SurvivorResource {
 		survivors.save(survivor);
 		return new ResponseEntity<>(survivor, HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/survivors/{id}/infected", method = RequestMethod.PUT)
+	public ResponseEntity<?> infected(@PathVariable("id") Long id){
+		Survivor survivor = survivors.findOne(id);
+		if (survivor == null) {
+			return new ResponseEntity<Survivor>(HttpStatus.NOT_FOUND);
+		}
+		survivor.setInfected(true);
+		survivors.save(survivor);
+		return new ResponseEntity<>(survivor, HttpStatus.OK);
+	}
+	
 }
+
+
+
+
+
