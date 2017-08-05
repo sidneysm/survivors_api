@@ -20,6 +20,7 @@ public class Inventory {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@ElementCollection
 	@MapKeyColumn(name="Item")
     @Column(name="Quantity")
@@ -53,14 +54,41 @@ public class Inventory {
 		this.id = id;
 	}
 	
-	public Map<ItemEnum, Integer> getItens() {
+	public Map<ItemEnum, Integer> getItems() {
 		return items;
 	}
 
-	public void setItens(HashMap<ItemEnum, Integer> itens) {
+	public void setItems(HashMap<ItemEnum, Integer> itens) {
 		this.items = itens;
 	}
-
+	
+	public boolean hasItensForTrade(Map<ItemEnum, Integer> itemsTrade){
+		
+		for (ItemEnum item : itemsTrade.keySet()) {
+			if (!items.containsKey(item)){
+				return false;
+			}
+			if (items.get(item) < itemsTrade.get(item)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void tradeSell(Map<ItemEnum, Integer> itemsTrade){
+		for (ItemEnum item : items.keySet()) {
+			int quantity = items.get(item) - itemsTrade.get(item);
+			items.put(item, quantity);
+		}
+	}
+	
+	public void tradeBuy(Map<ItemEnum, Integer> itemsTrade){
+		for (ItemEnum item : items.keySet()) {
+			int quantity = items.get(item) + itemsTrade.get(item);
+			items.put(item, quantity);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Inventory [id=" + id + ", items=" + items + "]";
