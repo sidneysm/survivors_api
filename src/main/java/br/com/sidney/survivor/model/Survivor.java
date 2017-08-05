@@ -25,8 +25,9 @@ public class Survivor {
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE})
 	private Location lastLocation;
 	@OneToOne
-	@Cascade({CascadeType.PERSIST, CascadeType.MERGE})
+	@Cascade({CascadeType.ALL})
 	private Inventory inventory;
+	private Integer points; 
 	private boolean isInfected = false;
 	
 	public Survivor() {
@@ -89,6 +90,14 @@ public class Survivor {
 
 	public void setInfected(boolean isInfected) {
 		this.isInfected = isInfected;
+	}
+
+	public Integer getPoints() {
+		return points;
+	}
+
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
 	@Override
