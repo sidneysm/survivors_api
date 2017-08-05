@@ -2,6 +2,7 @@ package br.com.sidney.survivor.resource;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.sidney.survivor.model.ItemEnum;
+import br.com.sidney.survivor.model.ReportAverageResource;
 import br.com.sidney.survivor.model.ReportInfectedPercentage;
 import br.com.sidney.survivor.model.ReportNonInfectedPercentage;
 import br.com.sidney.survivor.model.Survivor;
@@ -63,6 +66,51 @@ public class ReportResorce {
 		ReportNonInfectedPercentage infectedPercentage = new ReportNonInfectedPercentage(percent_non_infected);
 		
 		return new ResponseEntity<>(infectedPercentage, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/resource_average")
+	public ResponseEntity<?> resorceAverage() {
+		
+		List<Survivor> survivorsList = survivors.findAll();
+		
+		int water = 0;
+		int food = 0;
+		int medication = 0;
+		int ammunition = 0;
+		
+		for (Survivor survivor : survivorsList) {
+			Map<ItemEnum, Integer> items = survivor.getInventory().getItems();
+			for (ItemEnum item : items.keySet()) {
+				
+				switch (item.name()) {
+				case "Water":
+					water += items.get(item);
+					break;
+				case "Food":
+					food += items.get(item);
+					break;
+				case "Medication":
+					medication += items.get(item);
+					break;
+				case "Ammunition":
+					ammunition += items.get(item);
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
+		double waterAverage = (double)(water / survivorsList.size());
+		double foodAverage = (double)(food / survivorsList.size());
+		double medicationAverage = (double)(medication / survivorsList.size());
+		double ammunitionAverage = (double)(ammunition / survivorsList.size());
+		
+		ReportAverageResource reportAverageResource = 
+				new ReportAverageResource(waterAverage, foodAverage, medicationAverage, ammunitionAverage);
+		
+		return new ResponseEntity<>(reportAverageResource, HttpStatus.OK);
 	}
 	
 }
