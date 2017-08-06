@@ -16,22 +16,31 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sidney.survivor.model.Location;
 import br.com.sidney.survivor.model.Survivor;
 import br.com.sidney.survivor.repository.Survivors;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
+@RequestMapping(value = "/survivors")
+@Api(value="Suvivor", tags="Surviros")
 public class SurvivorResource {
 
 	public static final Logger logger = LoggerFactory.getLogger(SurvivorResource.class);
 
+	
 	@Autowired
 	private Survivors survivors;
 
-	@RequestMapping(value = "/survivors", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@ApiOperation(value = "List all survivors", response = Iterable.class)
 	public ResponseEntity<List<Survivor>> list() {
 		List<Survivor> survivorsList = survivors.findAll();
 		return new ResponseEntity<List<Survivor>>(survivorsList, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/survivors", method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ApiOperation(value = "Add a new survivor", response = Iterable.class)
 	public ResponseEntity<?> addSurvivor(@RequestBody Survivor survivor) {
 		logger.info("Add survivor: {}", survivor);
 
@@ -40,6 +49,7 @@ public class SurvivorResource {
 	}
 
 	@RequestMapping(value = "/survivors/{id}/infected", method = RequestMethod.PUT)
+	@ApiOperation(value = "Mark a survivor as infected", response = Iterable.class, notes="Como usar")
 	public ResponseEntity<?> infected(@PathVariable("id") Long id) {
 		Survivor survivor = survivors.findOne(id);
 		if (survivor == null) {
@@ -50,7 +60,8 @@ public class SurvivorResource {
 		return new ResponseEntity<>(survivor, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/survivors/{id}/location", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}/location", method = RequestMethod.PUT)
+	@ApiOperation(value = "Update last location of survivor", response = Iterable.class)
 	public ResponseEntity<?> newLocation(@PathVariable("id") Long id, @RequestBody Location location) {
 		Survivor survivor = survivors.findOne(id);
 		logger.info("update location: {}", location);
