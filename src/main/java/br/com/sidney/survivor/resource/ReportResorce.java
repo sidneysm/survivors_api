@@ -60,7 +60,7 @@ public class ReportResorce {
 				.filter(survivor -> !survivor.isInfected())
 				.collect(Collectors.toList());
 		
-		int non_infecteds_number = non_infecteds.size();
+		double non_infecteds_number = non_infecteds.size();
 		
 		double percent_non_infected = (double)(non_infecteds_number*100)/ all_number;		
 		
@@ -75,33 +75,18 @@ public class ReportResorce {
 		
 		List<Survivor> survivorsList = survivors.findAll();
 		
-		int water = 0;
-		int food = 0;
-		int medication = 0;
-		int ammunition = 0;
+		double water = survivorsList.stream()
+				.mapToInt(s -> s.getInventory().getItems().get(ItemEnum.Water)).sum();
 		
-		for (Survivor survivor : survivorsList) {
-			Map<ItemEnum, Integer> items = survivor.getInventory().getItems();
-			for (ItemEnum item : items.keySet()) {
-				
-				switch (item.name()) {
-				case "Water":
-					water += items.get(item);
-					break;
-				case "Food":
-					food += items.get(item);
-					break;
-				case "Medication":
-					medication += items.get(item);
-					break;
-				case "Ammunition":
-					ammunition += items.get(item);
-					break;
-				default:
-					break;
-				}
-			}
-		}
+		double food = survivorsList.stream()
+				.mapToInt(s -> s.getInventory().getItems().get(ItemEnum.Food)).sum();;
+		
+		double medication = survivorsList.stream()
+				.mapToInt(s -> s.getInventory().getItems().get(ItemEnum.Medication)).sum();;
+		
+		double ammunition = survivorsList.stream()
+				.mapToInt(s -> s.getInventory().getItems().get(ItemEnum.Ammunition)).sum();;
+		
 		
 		double waterAverage = (double)(water / survivorsList.size());
 		double foodAverage = (double)(food / survivorsList.size());
