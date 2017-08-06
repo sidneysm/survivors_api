@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sidney.survivor.model.ItemEnum;
 import br.com.sidney.survivor.model.ReportAverageResource;
 import br.com.sidney.survivor.model.ReportInfectedPercentage;
+import br.com.sidney.survivor.model.ReportLostPoints;
 import br.com.sidney.survivor.model.ReportNonInfectedPercentage;
 import br.com.sidney.survivor.model.Survivor;
 import br.com.sidney.survivor.repository.Survivors;
@@ -111,6 +112,22 @@ public class ReportResorce {
 				new ReportAverageResource(waterAverage, foodAverage, medicationAverage, ammunitionAverage);
 		
 		return new ResponseEntity<>(reportAverageResource, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/lost_points")
+	public ResponseEntity<?> lostPoints() {
+		List<Survivor> survivorsList = survivors.findAll();
+		
+		int lost_points = survivorsList.stream()
+				.filter(s -> s.isInfected())
+				.mapToInt(s -> s.getPoints())
+				.sum();
+		
+		ReportLostPoints reportLostPoints = new ReportLostPoints(lost_points);
+		
+		
+		return new ResponseEntity<>(reportLostPoints, HttpStatus.OK);
 	}
 	
 }
