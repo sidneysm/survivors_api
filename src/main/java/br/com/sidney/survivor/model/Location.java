@@ -12,7 +12,7 @@ public class Location {
 	@Id
 	@GeneratedValue
 	private Long id;
-		
+	
 	private double latitude;
 	private double longitude;
 		
