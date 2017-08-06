@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Inventory {
 	
@@ -19,12 +21,14 @@ public class Inventory {
 
 	@Id
 	@GeneratedValue
+	@ApiModelProperty(notes = "The database generated product ID")
 	private Long id;
 	
 	@ElementCollection
 	@MapKeyColumn(name="Item")
     @Column(name="Quantity")
 	@CollectionTable(name="inventory_items", joinColumns=@JoinColumn(name="inventory_id"))
+	@ApiModelProperty(notes = "Items on the inventary")
 	private Map<ItemEnum, Integer> items;
 	
 	public Inventory() {

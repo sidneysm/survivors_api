@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 public class Location {
 	
@@ -11,9 +13,12 @@ public class Location {
 
 	@Id
 	@GeneratedValue
+	@ApiModelProperty(notes = "The database generated product ID")
 	private Long id;
 	
+	@ApiModelProperty(notes = "The last location latitude")
 	private double latitude;
+	@ApiModelProperty(notes = "The last location longitude")
 	private double longitude;
 		
 	public Location() {
