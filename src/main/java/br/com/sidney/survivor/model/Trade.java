@@ -19,9 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Trade {
-	
-	private static final long serialVersionUID = 1L;
-	
+		
 	@Id
 	@GeneratedValue
 	@ApiModelProperty(notes = "The database generated product ID")

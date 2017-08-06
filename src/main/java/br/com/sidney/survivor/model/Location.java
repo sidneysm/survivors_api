@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 @Entity
 public class Location {
 	
-	private static final long serialVersionUID = 1L;
+	
 
 	@Id
 	@GeneratedValue
