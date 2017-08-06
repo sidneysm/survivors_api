@@ -37,8 +37,9 @@ public class TradeResource {
 	// }
 
 	@RequestMapping(value = "/trade", method = RequestMethod.POST)
-	@ApiOperation(value = "Make trade with only survivors marked as non-infected", response = Iterable.class, 
-		notes ="Notas")
+	@ApiOperation(value = "Make trade with only survivors marked as non-infected", response = Trade.class, 
+		notes ="Pass the id's (buyer and seller) in the query params, "
+				+ "and the itens have pass in the request body")
 	public ResponseEntity<?> createTrade(@RequestParam(value = "buyer") Long buyer,
 			@RequestParam(value = "seller") Long seller, @RequestBody Inventory inventory) {
 

@@ -6,7 +6,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,10 +14,8 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import br.com.sidney.survivor.resource.SurvivorResource;
+import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Trade {
@@ -27,20 +24,24 @@ public class Trade {
 	
 	@Id
 	@GeneratedValue
+	@ApiModelProperty(notes = "The database generated product ID")
 	private Long id;
 	
 	@OneToOne
 	@Cascade({CascadeType.MERGE})
+	@ApiModelProperty(notes = "The survivor who selling")
 	private Survivor seller;
 	
 	@OneToOne
 	@Cascade({CascadeType.MERGE})
+	@ApiModelProperty(notes = "The survivor who buy")
 	private Survivor buyer;
 	
 	@ElementCollection
 	@MapKeyColumn(name="Items")
     @Column(name="Quantity")
 	@CollectionTable(name="trade_items", joinColumns=@JoinColumn(name="trade_id"))
+	@ApiModelProperty(notes = "The traded itens")
 	private Map<ItemEnum, Integer> items;
 	
 	public Trade() {

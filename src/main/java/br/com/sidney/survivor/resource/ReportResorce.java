@@ -33,7 +33,7 @@ public class ReportResorce {
 	private Survivors survivors;
 
 	@RequestMapping(value = "/infected", method = RequestMethod.GET)
-	@ApiOperation(value = "Percentage of infected survivors", response = Iterable.class)
+	@ApiOperation(value = "Percentage of infected survivors", response = ReportInfectedPercentage.class)
 	public ResponseEntity<?> infectedPercentage() {
 
 		List<Survivor> survivorsList = survivors.findAll();
@@ -52,7 +52,7 @@ public class ReportResorce {
 	}
 
 	@RequestMapping(value = "/non_infected", method = RequestMethod.GET)
-	@ApiOperation(value = "Percentage of non-infected survivors", response = Iterable.class)
+	@ApiOperation(value = "Percentage of non-infected survivors", response = ReportNonInfectedPercentage.class)
 	public ResponseEntity<?> nonInfectedPercentage() {
 
 		List<Survivor> survivorsList = survivors.findAll();
@@ -71,7 +71,8 @@ public class ReportResorce {
 	}
 
 	@RequestMapping(value = "/resource_average", method = RequestMethod.GET)
-	@ApiOperation(value = "Average amount of each kind of resource by survivor (e.g. 5 waters per survivor)", response = Iterable.class)
+	@ApiOperation(value = "Average amount of each kind of resource by survivor (e.g. 5 waters per survivor)", 
+	response = ReportAverageResource.class, notes = "This is important to we know hos long we gonna least")
 	public ResponseEntity<?> resorceAverage() {
 
 		List<Survivor> survivorsList = survivors.findAll();
@@ -101,7 +102,7 @@ public class ReportResorce {
 	}
 
 	@RequestMapping(value = "/lost_points", method = RequestMethod.GET)
-	@ApiOperation(value = "Points lost because of infected survivor", response = Iterable.class)
+	@ApiOperation(value = "Points lost because of infected survivor", response = ReportLostPoints.class)
 	public ResponseEntity<?> lostPoints() {
 		List<Survivor> survivorsList = survivors.findAll();
 

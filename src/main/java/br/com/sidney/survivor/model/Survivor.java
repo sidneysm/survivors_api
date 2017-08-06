@@ -8,6 +8,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 
 @Entity
@@ -17,17 +19,25 @@ public class Survivor {
 
 	@Id
 	@GeneratedValue
+	@ApiModelProperty(notes = "The database generated product ID")
 	private Long id;
+	@ApiModelProperty(notes = "The name of survivor")
 	private String name;
+	@ApiModelProperty(notes = "The age of survivor")
 	private int age;
+	@ApiModelProperty(notes = "The gender of surviror")
 	private String gender;
 	@OneToOne
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE})
+	@ApiModelProperty(notes = "The survivor last location")
 	private Location lastLocation;
 	@OneToOne
 	@Cascade({CascadeType.ALL})
+	@ApiModelProperty(notes = "The survivor's inventary")
 	private Inventory inventory;
+	@ApiModelProperty(notes = "Points to use in the trades")
 	private Integer points; 
+	@ApiModelProperty(notes = "Flag for infected survivors")
 	private boolean isInfected = false;
 	
 	public Survivor() {
