@@ -16,7 +16,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import java.util.Arrays;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +26,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-import br.com.sidney.survivor.SuvivorsApplication;
 import br.com.sidney.survivor.model.Inventory;
 import br.com.sidney.survivor.model.ItemEnum;
 import br.com.sidney.survivor.model.Location;
@@ -45,20 +43,17 @@ public class SurvivorRestControllerTest {
 
 	@Autowired
 	private SurvivorsRepository survivorsRepository;
-
+	
+	private Survivor survivor = new Survivor();
+	private Survivor survivor2 = new Survivor();
+	private Inventory inventory = new Inventory();
+	
 	@Before
 	public void setup() {
 		survivorsRepository = mock(SurvivorsRepository.class);
 		reset(survivorsRepository);
 		this.mockMvc = standaloneSetup(new SurvivorResource(survivorsRepository)).build();
-	}
-
-	@Test
-	public void testListSurvivors() throws Exception {
-		Inventory inventory = new Inventory();
-
-		Survivor survivor = new Survivor();
-
+		
 		inventory.getItems().put(ItemEnum.Food, 4);
 		inventory.getItems().put(ItemEnum.Medication, 5);
 		inventory.getItems().put(ItemEnum.Ammunition, 7);
@@ -78,13 +73,17 @@ public class SurvivorRestControllerTest {
 		survivor.setAge(31);
 		survivor.setName("Sidney");
 
-		Survivor survivor2 = new Survivor();
+		
 		survivor2.setId(2l);
 		survivor2.setPoints(100);
 		survivor2.setAge(31);
 		survivor2.setName("Soares");
 		survivor2.setLastLocation(location);
 		survivor2.setInventory(inventory);
+	}
+
+	@Test
+	public void testListSurvivors() throws Exception {
 
 		when(survivorsRepository.findAll()).thenReturn(Arrays.asList(survivor, survivor2));
 
@@ -98,29 +97,6 @@ public class SurvivorRestControllerTest {
 
 	@Test
 	public void testAddSurvivor() throws Exception {
-
-		Inventory inventory = new Inventory();
-
-		Survivor survivor = new Survivor();
-
-		inventory.getItems().put(ItemEnum.Food, 4);
-		inventory.getItems().put(ItemEnum.Medication, 5);
-		inventory.getItems().put(ItemEnum.Ammunition, 7);
-		inventory.getItems().put(ItemEnum.Water, 4);
-
-		survivor.setInventory(inventory);
-
-		Location location = new Location();
-		location.setId(1l);
-		location.setLatitude(5.5);
-		location.setLongitude(6.1);
-
-		survivor.setLastLocation(location);
-
-		survivor.setId(1l);
-		survivor.setPoints(100);
-		survivor.setAge(31);
-		survivor.setName("Sidney");
 
 		when(survivorsRepository.save(any(Survivor.class))).thenReturn(survivor);
 
@@ -141,29 +117,7 @@ public class SurvivorRestControllerTest {
 
 	@Test
 	public void testInfected() throws Exception {
-		Inventory inventory = new Inventory();
-
-		Survivor survivor = new Survivor();
-
-		inventory.getItems().put(ItemEnum.Food, 4);
-		inventory.getItems().put(ItemEnum.Medication, 5);
-		inventory.getItems().put(ItemEnum.Ammunition, 7);
-		inventory.getItems().put(ItemEnum.Water, 4);
-
-		survivor.setInventory(inventory);
-
-		Location location = new Location();
-		location.setId(1L);
-		location.setLatitude(5.5);
-		location.setLongitude(6.1);
-
-		survivor.setLastLocation(location);
-
-		survivor.setId(1L);
-		survivor.setPoints(100);
-		survivor.setAge(31);
-		survivor.setName("Sidney");
-
+		
 		when(survivorsRepository.findOne(1l)).thenReturn(survivor);
 
 		this.mockMvc.perform(put("/survivors/{id}/infected", 1l).accept(TestUtil.APPLICATION_JSON_UTF8))
@@ -176,28 +130,11 @@ public class SurvivorRestControllerTest {
 
 	@Test
 	public void testLastLocationUpdate() throws Exception {
-		Inventory inventory = new Inventory();
-
-		Survivor survivor = new Survivor();
-
-		survivor.setInventory(inventory);
-
-		Location location = new Location();
-		location.setId(1L);
-		location.setLatitude(5.5);
-		location.setLongitude(6.1);
-
-		survivor.setLastLocation(location);
-
-		survivor.setId(1L);
-		survivor.setPoints(100);
-		survivor.setAge(31);
-		survivor.setName("Sidney");
-
 		Location location2 = new Location();
 		location2.setId(2L);
 		location2.setLatitude(3);
 		location2.setLongitude(5);
+		
 		when(survivorsRepository.findOne(1l)).thenReturn(survivor);
 
 		this.mockMvc.perform(put("/survivors/{id}/location", 1l).accept(TestUtil.APPLICATION_JSON_UTF8)

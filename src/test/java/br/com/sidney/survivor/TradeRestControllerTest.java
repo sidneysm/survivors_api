@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.MultiValueMap;
 
 import br.com.sidney.survivor.model.Inventory;
 import br.com.sidney.survivor.model.ItemEnum;
@@ -40,6 +39,7 @@ import util.TestUtil;
 public class TradeRestControllerTest {
 
 	private MockMvc mockMvc;
+	@SuppressWarnings("unused")
 	private MockMvc mockMvcSurv;
 	
 	@Autowired
@@ -67,7 +67,6 @@ public class TradeRestControllerTest {
 		this.mockMvcSurv = standaloneSetup(new SurvivorResource(survivorsRepository)).build();
 		
 //		Create the survivors for trade.
-		Inventory inventory1 = new Inventory();
 		inventory1.setId(1l);
 		inventory1.getItems().put(ItemEnum.Food, 4);
 		inventory1.getItems().put(ItemEnum.Medication, 4);

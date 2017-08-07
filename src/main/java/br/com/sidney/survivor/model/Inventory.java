@@ -64,6 +64,7 @@ public class Inventory {
 		this.items = itens;
 	}
 	
+	// Receive items from trade and check iff this inventory has it 
 	public boolean hasItensForTrade(Map<ItemEnum, Integer> itemsTrade){
 		
 		for (ItemEnum item : itemsTrade.keySet()) {
@@ -77,13 +78,15 @@ public class Inventory {
 		return true;
 	}
 	
+	// Take off items in case this inventory belongs to Seller
 	public void tradeSell(Map<ItemEnum, Integer> itemsTrade){
 		for (ItemEnum item : items.keySet()) {
 			int quantity = items.get(item) - itemsTrade.get(item);
 			this.items.put(item, quantity);
 		}
-			}
+	}
 	
+	// Take in items in case this inventory belongs to Buyer
 	public void tradeBuy(Map<ItemEnum, Integer> itemsTrade){
 		for (ItemEnum item : items.keySet()) {
 			int quantity = items.get(item) + itemsTrade.get(item);

@@ -25,12 +25,17 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/reports")
 @Api(value = "Report", tags = "Reports")
-public class ReportResorce {
+public class ReportResource {
 
 	public static final Logger logger = LoggerFactory.getLogger(SurvivorResource.class);
 
 	@Autowired
 	private SurvivorsRepository survivors;
+	
+	public ReportResource(SurvivorsRepository survivors) {
+		super();
+		this.survivors = survivors;
+	}
 
 	@RequestMapping(value = "/infected", method = RequestMethod.GET)
 	@ApiOperation(value = "Percentage of infected survivors", response = ReportInfectedPercentage.class)
