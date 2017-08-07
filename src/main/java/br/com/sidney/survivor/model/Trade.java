@@ -1,5 +1,6 @@
 package br.com.sidney.survivor.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CollectionTable;
@@ -43,6 +44,7 @@ public class Trade {
 	private Map<ItemEnum, Integer> items;
 	
 	public Trade() {
+		items = new HashMap<ItemEnum, Integer>();
 	}
 
 	public Trade(Long id, Survivor seller, Survivor buyer, Map<ItemEnum, Integer> items) {

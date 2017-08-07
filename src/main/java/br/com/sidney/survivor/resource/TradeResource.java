@@ -30,11 +30,10 @@ public class TradeResource {
 	@Autowired
 	private SurvivorsRepository survivors;
 
-	// @RequestMapping(value = "/trade", method = RequestMethod.GET)
-	// public ResponseEntity<List<Trade>> list() {
-	// List<Trade> tradeList = trades.findAll();
-	// return new ResponseEntity<List<Trade>>(tradeList, HttpStatus.OK);
-	// }
+	public TradeResource(TradesRepository tradesRepository, SurvivorsRepository survivors) {
+		this.trades = tradesRepository;
+		this.survivors = survivors;
+	}
 
 	@RequestMapping(value = "/trade", method = RequestMethod.POST)
 	@ApiOperation(value = "Make trade with only survivors marked as non-infected", response = Trade.class, 
@@ -42,24 +41,34 @@ public class TradeResource {
 				+ "and the itens have pass in the request body")
 	public ResponseEntity<?> createTrade(@RequestParam(value = "buyer") Long buyer,
 			@RequestParam(value = "seller") Long seller, @RequestBody Inventory inventory) {
-
-		logger.info("Add trade: {}", buyer);
-
-		Survivor survivor_buyer = survivors.findOne(buyer);
-		Survivor survivor_seller = survivors.findOne(seller);
-
-		logger.info("Find survivor: {}", survivor_buyer);
-		logger.info("Find survivor: {}", survivor_seller);
 		Trade trade = new Trade();
-		trade.setBuyer(survivor_buyer);
-		trade.setSeller(survivor_seller);
-		trade.setItems(inventory.getItems());
+		logger.info("Add trade: {}", buyer);
+		
+		Survivor survivor_buyer;
+		try {
+			survivor_buyer = survivors.findOne(buyer);
+			logger.info("Found survivor: {}", survivor_buyer);
+			trade.setBuyer(survivor_buyer);
+			
+			Survivor survivor_seller = survivors.findOne(seller);
+			logger.info("Found survivor: {}", survivor_seller);
+			
+			
+			trade.setSeller(survivor_seller);
+			trade.setItems(inventory.getItems());
 
+		} catch (Exception e) {
+			
+			logger.info("Deu Erro: {}", seller);
+			logger.info("Deu Erro: {}", survivors);
+			return new ResponseEntity<Trade>(HttpStatus.NOT_FOUND);
+		}
+		
 		boolean t = trade.makeTrade();
 		if (!t) {
 			return new ResponseEntity<Trade>(HttpStatus.BAD_REQUEST);
 		}
 		trades.save(trade);
-		return new ResponseEntity<>(inventory, HttpStatus.CREATED);
+		return new ResponseEntity<>(trade, HttpStatus.CREATED);
 	}
 }

@@ -122,15 +122,7 @@ public class SurvivorRestControllerTest {
 		survivor.setAge(31);
 		survivor.setName("Sidney");
 
-		Survivor survivor2 = survivor;
-		survivor2.setId(1l);
-		survivor2.setPoints(100);
-		survivor2.setAge(31);
-		survivor2.setName("Sidney");
-		survivor2.setLastLocation(location);
-		survivor2.setInventory(inventory);
-
-		when(survivorsRepository.save(any(Survivor.class))).thenReturn(survivor2);
+		when(survivorsRepository.save(any(Survivor.class))).thenReturn(survivor);
 
 		this.mockMvc
 				.perform(post("/survivors/add").accept(TestUtil.APPLICATION_JSON_UTF8)
