@@ -54,6 +54,8 @@ public class SurvivorRestControllerTest {
 		reset(survivorsRepository);
 		this.mockMvc = standaloneSetup(new SurvivorResource(survivorsRepository)).build();
 		
+		// Creating objects for tests
+		
 		inventory.getItems().put(ItemEnum.Food, 4);
 		inventory.getItems().put(ItemEnum.Medication, 5);
 		inventory.getItems().put(ItemEnum.Ammunition, 7);
@@ -81,7 +83,8 @@ public class SurvivorRestControllerTest {
 		survivor2.setLastLocation(location);
 		survivor2.setInventory(inventory);
 	}
-
+	
+	// Test if can list all survivors
 	@Test
 	public void testListSurvivors() throws Exception {
 
@@ -94,7 +97,8 @@ public class SurvivorRestControllerTest {
 				.andExpect(jsonPath("$[1].name", is("Soares")));
 
 	}
-
+	
+	// Test if add a survivor correctly
 	@Test
 	public void testAddSurvivor() throws Exception {
 
@@ -114,7 +118,8 @@ public class SurvivorRestControllerTest {
 				.andExpect(jsonPath("$.inventory.items.Medication", is(5))).andExpect(jsonPath("$.points", is(100)))
 				.andExpect(jsonPath("$.infected", is(false)));
 	}
-
+	
+	// Test update when survivor is infected
 	@Test
 	public void testInfected() throws Exception {
 		
@@ -136,7 +141,8 @@ public class SurvivorRestControllerTest {
 		location2.setLongitude(5);
 		
 		when(survivorsRepository.findOne(1l)).thenReturn(survivor);
-
+		
+		// Test if can update lastLocation of survivor
 		this.mockMvc.perform(put("/survivors/{id}/location", 1l).accept(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(location2)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk())

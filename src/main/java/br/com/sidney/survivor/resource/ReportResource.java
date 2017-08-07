@@ -36,7 +36,8 @@ public class ReportResource {
 		super();
 		this.survivors = survivors;
 	}
-
+	
+	
 	@RequestMapping(value = "/infected", method = RequestMethod.GET)
 	@ApiOperation(value = "Percentage of infected survivors", response = ReportInfectedPercentage.class)
 	public ResponseEntity<?> infectedPercentage() {
