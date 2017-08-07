@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.sidney.survivor.model.Inventory;
 import br.com.sidney.survivor.model.Survivor;
 import br.com.sidney.survivor.model.Trade;
-import br.com.sidney.survivor.repository.Survivors;
-import br.com.sidney.survivor.repository.Trades;
+import br.com.sidney.survivor.repository.SurvivorsRepository;
+import br.com.sidney.survivor.repository.TradesRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -25,10 +25,10 @@ public class TradeResource {
 	public static final Logger logger = LoggerFactory.getLogger(SurvivorResource.class);
 
 	@Autowired
-	private Trades trades;
+	private TradesRepository trades;
 
 	@Autowired
-	private Survivors survivors;
+	private SurvivorsRepository survivors;
 
 	// @RequestMapping(value = "/trade", method = RequestMethod.GET)
 	// public ResponseEntity<List<Trade>> list() {

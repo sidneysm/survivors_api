@@ -18,7 +18,7 @@ import br.com.sidney.survivor.model.ReportInfectedPercentage;
 import br.com.sidney.survivor.model.ReportLostPoints;
 import br.com.sidney.survivor.model.ReportNonInfectedPercentage;
 import br.com.sidney.survivor.model.Survivor;
-import br.com.sidney.survivor.repository.Survivors;
+import br.com.sidney.survivor.repository.SurvivorsRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -30,7 +30,7 @@ public class ReportResorce {
 	public static final Logger logger = LoggerFactory.getLogger(SurvivorResource.class);
 
 	@Autowired
-	private Survivors survivors;
+	private SurvivorsRepository survivors;
 
 	@RequestMapping(value = "/infected", method = RequestMethod.GET)
 	@ApiOperation(value = "Percentage of infected survivors", response = ReportInfectedPercentage.class)

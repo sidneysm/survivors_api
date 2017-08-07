@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sidney.survivor.model.Location;
 import br.com.sidney.survivor.model.Survivor;
-import br.com.sidney.survivor.repository.Survivors;
+import br.com.sidney.survivor.repository.SurvivorsRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -30,9 +30,14 @@ public class SurvivorResource {
 
 	
 	@Autowired
-	private Survivors survivors;
+	private SurvivorsRepository survivors;
+		
+	public SurvivorResource(SurvivorsRepository survivors) {
+		super();
+		this.survivors = survivors;
+	}
 
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ApiOperation(value = "List all survivors", response = Iterable.class, 
 			notes = "Return a list with all survivors")
@@ -56,7 +61,7 @@ public class SurvivorResource {
 		return new ResponseEntity<>(survivor, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/survivors/{id}/infected", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{id}/infected", method = RequestMethod.PUT)
 	@ApiOperation(value = "Mark a survivor as infected", response = Survivor.class,
 			notes = "Pass the id survivor to mark him/her as infected")
 	@ApiResponses(value = {
@@ -78,7 +83,7 @@ public class SurvivorResource {
 	@ApiOperation(value = "Update last location of survivor", response = Survivor.class,
 			notes = "Pass last location (latitude and longitude) of survivor")
 	@ApiResponses(value = {
-	        @ApiResponse(code = 404, message = "Suvivor not found"),
+	        @ApiResponse(code = 404, message = "Survivor not found"),
 	        @ApiResponse(code = 200, message = "Successfully update last location")
 		}
 	)
