@@ -35,7 +35,7 @@ public class TradeResource {
 		this.survivors = survivors;
 	}
 
-	@RequestMapping(value = "/trade", method = RequestMethod.POST)
+	@RequestMapping(value = "/trades", method = RequestMethod.POST)
 	@ApiOperation(value = "Make trade with only survivors marked as non-infected", response = Trade.class, 
 		notes ="Pass the id's (buyer and seller) in the query params, "
 				+ "and the itens have pass in the request body")

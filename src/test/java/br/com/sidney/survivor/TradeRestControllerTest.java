@@ -85,8 +85,6 @@ public class TradeRestControllerTest {
 		inventory3.getItems().put(ItemEnum.Ammunition, 4);
 		inventory3.getItems().put(ItemEnum.Water, 4);
 		
-//		Survivor survivor = new Survivor();
-
 		survivor.setInventory(inventory1);
 
 		Location location = new Location();
@@ -101,7 +99,6 @@ public class TradeRestControllerTest {
 		survivor.setAge(31);
 		survivor.setName("Sidney");
 
-//		Survivor survivor2 = new Survivor();
 		survivor2.setId(2l);
 		survivor2.setPoints(100);
 		survivor2.setAge(31);
@@ -116,16 +113,17 @@ public class TradeRestControllerTest {
 		
 	}
 	
+	// Test if can create a new trade
 	@Test
 	public void testTrade() throws Exception {
-//		
+
 		
 		when(survivorsRepository.findOne(1l)).thenReturn(survivor);
 		when(survivorsRepository.findOne(2l)).thenReturn(survivor2);
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-			.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+			.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 					.content(TestUtil.convertObjectToJsonBytes(inventory3))
 					.contentType(TestUtil.APPLICATION_JSON_UTF8)).andDo(print())
 			.andExpect(status().isCreated()).andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
@@ -149,10 +147,10 @@ public class TradeRestControllerTest {
 		
 	}
 	
+	// Test if buyer is infected 
 	@Test
 	public void testIfBuyerIsinfected() throws Exception {
-//		Create the survivors for trade.
-		
+
 		survivor.setInfected(true);
 		
 		when(survivorsRepository.findOne(1l)).thenReturn(survivor);
@@ -160,11 +158,12 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
 	
+	// Test if seller is infected 
 	@Test
 	public void testIfSellerIsinfected() throws Exception {
 		survivor2.setInfected(true);
@@ -174,11 +173,12 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
 	
+	// Test if seller has sufficient items for trade
 	@Test
 	public void testIfSellerHasItems() throws Exception {
 		inventory3.getItems().put(ItemEnum.Food, 5);
@@ -191,11 +191,12 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
 	
+	// Test if buyer has sufficient points for trade 
 	@Test
 	public void testIfBuyerHasPoints() throws Exception {
 		survivor.setPoints(0);
@@ -205,7 +206,7 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}

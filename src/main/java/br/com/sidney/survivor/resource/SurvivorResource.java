@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value = "/survivors")
+@RequestMapping
 @Api(value="Suvivor", tags="Survivors")
 public class SurvivorResource {
 
@@ -38,7 +38,7 @@ public class SurvivorResource {
 	}
 
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/survivors.json", method = RequestMethod.GET)
 	@ApiOperation(value = "List all survivors", response = Iterable.class, 
 			notes = "Return a list with all survivors")
 	public ResponseEntity<List<Survivor>> list() {
@@ -47,7 +47,7 @@ public class SurvivorResource {
 	}
 
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/survivors", method = RequestMethod.POST)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 201, message = "Successfully add survivor")
 		}
@@ -61,7 +61,7 @@ public class SurvivorResource {
 		return new ResponseEntity<>(survivor, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/{id}/infected", method = RequestMethod.PUT)
+	@RequestMapping(value = "/survivors/{id}/infected", method = RequestMethod.PUT)
 	@ApiOperation(value = "Mark a survivor as infected", response = Survivor.class,
 			notes = "Pass the id survivor to mark him/her as infected")
 	@ApiResponses(value = {
@@ -79,7 +79,7 @@ public class SurvivorResource {
 		return new ResponseEntity<>(survivor, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}/location", method = RequestMethod.PUT)
+	@RequestMapping(value = "/survivors/{id}/location", method = RequestMethod.PUT)
 	@ApiOperation(value = "Update last location of survivor", response = Survivor.class,
 			notes = "Pass last location (latitude and longitude) of survivor")
 	@ApiResponses(value = {

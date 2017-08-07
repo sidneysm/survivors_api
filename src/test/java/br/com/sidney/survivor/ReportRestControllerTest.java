@@ -53,6 +53,8 @@ public class ReportRestControllerTest {
 		reset(survivorsRepository);
 		this.mockMvc = standaloneSetup(new ReportResource(survivorsRepository)).build();
 		
+		// Creating objects for tests		
+		
 		inventory1.setId(1l);
 		inventory1.getItems().put(ItemEnum.Food, 0);
 		inventory1.getItems().put(ItemEnum.Medication, 2);
@@ -102,6 +104,7 @@ public class ReportRestControllerTest {
 		survivor3.setInfected(true);
 	}
 	
+	// Test if endpoint "/reports/infected" works
 	@Test
 	public void testReportInfecteds() throws Exception {
 
@@ -115,6 +118,7 @@ public class ReportRestControllerTest {
 
 	}
 	
+	// Test if endpoint "/reports/non_infected" works
 	@Test
 	public void testReportNonInfecteds() throws Exception {
 
@@ -126,6 +130,7 @@ public class ReportRestControllerTest {
 				.andExpect(jsonPath("$.percentage", is(66.666666666666667)));
 	}
 	
+	// Test if endpoint "/reports/lost_points" works
 	@Test
 	public void testReportLostPoints() throws Exception {
 
@@ -137,6 +142,7 @@ public class ReportRestControllerTest {
 				.andExpect(jsonPath("$.lostPoints", is(100)));
 	}
 	
+	// Test if endpoint "/reports/resource_average" works
 	@Test
 	public void testReportAvaregeResouces() throws Exception {
 
