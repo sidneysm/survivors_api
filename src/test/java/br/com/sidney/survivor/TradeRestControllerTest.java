@@ -160,7 +160,7 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
@@ -174,7 +174,7 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
@@ -191,7 +191,7 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
@@ -205,7 +205,7 @@ public class TradeRestControllerTest {
 		when(tradesRepository.save(any(Trade.class))).thenReturn(trade);
 		
 		this.mockMvc
-				.perform(post("/trade").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
+				.perform(post("/trades").accept(TestUtil.APPLICATION_JSON_UTF8).param("buyer", "1").param("seller", "2")
 						.content(TestUtil.convertObjectToJsonBytes(inventory3)).contentType(TestUtil.APPLICATION_JSON_UTF8))
 			.andExpect(status().isBadRequest());
 	}
