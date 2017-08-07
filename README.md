@@ -11,7 +11,7 @@ $ git clone https://github.com/sidneysm/survivors_api.git
 $ cd survivors_api
 ```
 
-Open in your IDE and wait the maven download all dependencies from pom.xml
+Open in your IDE and wait maven download all dependencies from pom.xml
 
 ## Deploy
 
