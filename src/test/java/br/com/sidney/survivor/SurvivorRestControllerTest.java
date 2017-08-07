@@ -87,7 +87,7 @@ public class SurvivorRestControllerTest {
 
 		when(survivorsRepository.findAll()).thenReturn(Arrays.asList(survivor, survivor2));
 
-		this.mockMvc.perform(get("/survivors/list").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
+		this.mockMvc.perform(get("/survivors.json").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
 				.andExpect(status().isOk()).andExpect(content().contentType("application/json;charset=UTF-8"))
 				.andExpect(jsonPath("$", hasSize(2))).andExpect(jsonPath("$[0].id", is(1)))
 				.andExpect(jsonPath("$[0].name", is("Sidney"))).andExpect(jsonPath("$[1].id", is(2)))
@@ -101,7 +101,7 @@ public class SurvivorRestControllerTest {
 		when(survivorsRepository.save(any(Survivor.class))).thenReturn(survivor);
 
 		this.mockMvc
-				.perform(post("/survivors/add").accept(TestUtil.APPLICATION_JSON_UTF8)
+				.perform(post("/survivors").accept(TestUtil.APPLICATION_JSON_UTF8)
 						.content(TestUtil.convertObjectToJsonBytes(survivor))
 						.contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isCreated()).andExpect(content().contentType(TestUtil.APPLICATION_JSON_UTF8))
