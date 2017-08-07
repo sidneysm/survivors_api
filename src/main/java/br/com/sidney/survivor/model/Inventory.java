@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Entity
 public class Inventory {
-	
+		
 	@Id
 	@GeneratedValue
 	@ApiModelProperty(notes = "The database generated product ID")
@@ -64,6 +64,7 @@ public class Inventory {
 		this.items = itens;
 	}
 	
+	// Receive items from trade and check iff this inventory has it 
 	public boolean hasItensForTrade(Map<ItemEnum, Integer> itemsTrade){
 		
 		for (ItemEnum item : itemsTrade.keySet()) {
@@ -77,26 +78,27 @@ public class Inventory {
 		return true;
 	}
 	
+	// Take off items in case this inventory belongs to Seller
 	public void tradeSell(Map<ItemEnum, Integer> itemsTrade){
 		for (ItemEnum item : items.keySet()) {
 			int quantity = items.get(item) - itemsTrade.get(item);
-			items.put(item, quantity);
+			this.items.put(item, quantity);
 		}
 	}
 	
+	// Take in items in case this inventory belongs to Buyer
 	public void tradeBuy(Map<ItemEnum, Integer> itemsTrade){
 		for (ItemEnum item : items.keySet()) {
 			int quantity = items.get(item) + itemsTrade.get(item);
-			items.put(item, quantity);
+			this.items.put(item, quantity);
 		}
+		
 	}
 	
 	@Override
 	public String toString() {
 		return "Inventory [id=" + id + ", items=" + items + "]";
 	}
-	
-	
 }
 
 	

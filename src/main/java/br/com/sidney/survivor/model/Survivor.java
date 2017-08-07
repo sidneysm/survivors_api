@@ -1,6 +1,7 @@
 package br.com.sidney.survivor.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -29,7 +30,7 @@ public class Survivor {
 	@Cascade({CascadeType.PERSIST, CascadeType.MERGE})
 	@ApiModelProperty(notes = "The survivor last location")
 	private Location lastLocation;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@Cascade({CascadeType.ALL})
 	@ApiModelProperty(notes = "The survivor's inventary")
 	private Inventory inventory;

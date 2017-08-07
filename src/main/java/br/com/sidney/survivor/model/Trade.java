@@ -1,5 +1,6 @@
 package br.com.sidney.survivor.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CollectionTable;
@@ -43,6 +44,7 @@ public class Trade {
 	private Map<ItemEnum, Integer> items;
 	
 	public Trade() {
+		items = new HashMap<ItemEnum, Integer>();
 	}
 
 	public Trade(Long id, Survivor seller, Survivor buyer, Map<ItemEnum, Integer> items) {
@@ -89,7 +91,9 @@ public class Trade {
 		return "Trade [id=" + id + ", seller=" + seller + ", buyer=" + buyer + ", items=" + items + "]";
 	}
 	
+	// Runs over trade items to calculate total prize
 	public int totalPriceItems(){
+		
 		int total = 0;
 		for (ItemEnum item : items.keySet()) {
 			String i = item.name();
@@ -114,13 +118,16 @@ public class Trade {
 	}
 	
 	public boolean makeTrade() {
+		// Check is the conditions for make trade is ok.
 		if (buyer.getPoints() >= totalPriceItems() && 
 				seller.getInventory().hasItensForTrade(items) &&
 					!buyer.isInfected() && !seller.isInfected()){
 			
+			// Set new buyer and seller points
 			buyer.setPoints(buyer.getPoints() - totalPriceItems());
 			seller.setPoints(seller.getPoints() + totalPriceItems());
 			
+			// Update seller and buyer's inventory
 			seller.getInventory().tradeSell(items);
 			buyer.getInventory().tradeBuy(items);
 			return true;

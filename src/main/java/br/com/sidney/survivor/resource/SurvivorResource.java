@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sidney.survivor.model.Location;
 import br.com.sidney.survivor.model.Survivor;
-import br.com.sidney.survivor.repository.Survivors;
+import br.com.sidney.survivor.repository.SurvivorsRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping(value = "/survivors")
+@RequestMapping
 @Api(value="Suvivor", tags="Survivors")
 public class SurvivorResource {
 
@@ -30,10 +30,15 @@ public class SurvivorResource {
 
 	
 	@Autowired
-	private Survivors survivors;
+	private SurvivorsRepository survivors;
+		
+	public SurvivorResource(SurvivorsRepository survivors) {
+		super();
+		this.survivors = survivors;
+	}
 
-	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/survivors.json", method = RequestMethod.GET)
 	@ApiOperation(value = "List all survivors", response = Iterable.class, 
 			notes = "Return a list with all survivors")
 	public ResponseEntity<List<Survivor>> list() {
@@ -42,7 +47,7 @@ public class SurvivorResource {
 	}
 
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/survivors", method = RequestMethod.POST)
 	@ApiResponses(value = {
 	        @ApiResponse(code = 201, message = "Successfully add survivor")
 		}
@@ -74,11 +79,11 @@ public class SurvivorResource {
 		return new ResponseEntity<>(survivor, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}/location", method = RequestMethod.PUT)
+	@RequestMapping(value = "/survivors/{id}/location", method = RequestMethod.PUT)
 	@ApiOperation(value = "Update last location of survivor", response = Survivor.class,
 			notes = "Pass last location (latitude and longitude) of survivor")
 	@ApiResponses(value = {
-	        @ApiResponse(code = 404, message = "Suvivor not found"),
+	        @ApiResponse(code = 404, message = "Survivor not found"),
 	        @ApiResponse(code = 200, message = "Successfully update last location")
 		}
 	)
